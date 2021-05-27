@@ -1,0 +1,167 @@
+SLICING FUNCTION
+
+df<-data.frame(x=(1:3),y=c("a","b","c"))
+
+-------------
+df[1,1]
+df[1,]
+df[c(1,3),2]
+df[c(1,3),1]
+df[c(1,3),]
+
+--------------
+
+> df
+  x y
+1 1 a
+2 2 b
+3 3 c
+
+>df[1,1]
+[1] 1
+
+> df[1,]
+  x y
+1 1 a
+
+> df[c(1,3),2]
+[1] "a" "c"
+
+> df[c(1,3),1]
+[1] 1 3
+
+> df[c(1,3),]
+  x y
+1 1 a
+3 3 c
+
+
+---------------------------------------------
+
+command to install dplyr
+
+install.packages("dplyr")
+library(dplyr)
+
+
+Important dplyr command
+
+import dataset
+
+from text
+
+select file
+
+open
+
+name file
+
+import
+
+OR
+
+flights<-read.csv("D:/EXCELR/Munmun Bhagat/flights")  ---- TO IMPORT DATASET
+head(flights)  --- FIRST 10 RECORDS
+tail(flights)  --- LAST 10 RECORDS
+flights
+head(flights,10)  --- FIRST 10 RECORDS
+tail(flights,3)  --- LAST 3 RECORDS
+flights<-data.frame(flights)
+glimpse(flights) --- OVERVIEW OF DATA
+select(flights,dep_time,arr_time,flight) ---- REQ ROWS AND COLUMNS
+filter(flights,month==1,day==1,origin=="EWR") --- AND OPERATIONS
+filter(flights,carrier=="AA "|carrier=="UA") --- OR OPERATIONS
+
+PIPELINING OR CHAINING OPERATION
+
+flights %>%
+  select(carrier,dep_delay)%>%
+  filter(dep_delay>60)
+
+PIPELINING OR CHAINING OPERATION FOR ARRANGE COMMAND
+
+flights %>%
+  select(carrier,dep_delay)%>%
+  arrange(dep_delay)
+
+CREATE A NEW COLUMN  --- MUTATE
+
+flights<-flights%>%mutate(speed=distance/air_time*60)
+
+GROUP BY FUNCTION
+
+flights %>%
+  group_by(dest,arr_delay)%>%
+  summarise(avg_delay = mean(arr_delay,na.rm=TRUE))
+
+flights %>%
+  group_by(month,day_delay)%>%
+  summarise(flight_count = n())%>%
+
+flights %>%
+  group_by(month,day)%>%
+  summarise(flight_count = n())%>%
+  arrange(desc(flight_count))
+
+*******************************************************************************************************
+FREE DATA SETS AVAILABLE IN "R ENVIRONMENT"
+
+COMMAND  ----- data()
+
+airquality<-datasets::airquality      TO IMPORT DATA SET FROM R ENVIRONMENT
+View(airquality)                      TO VIEW THE DATASET
+head(airquality,10)                   TO GET TOP TEN ROWS
+tail(airquality,10)                   TO GET LAST TEN ROWS
+airquality[,c(1,2)]                   TO EXTRACT PARTICULAR ROW/COLUMN  [ROWS,COLUMN]
+df<-airquality[,-6]                   TO EXCLUDE PARTICULAR ROW/COLUMN  [ROWS,COLUMN]  
+                                      HERE df ANOTHER VARIABLE WHERE NEW DATA WILL BE STORED
+                                      ON ENVIRONMENT WE CAN VIEW IT
+summary(airquality[1,])               WILL GIVE HOW MANY ROWS/COLUMNS ARE THERE ( WILL GIVE DISCRIPTIVE STATISTICS )
+                                      HERE ITS DONE FOR FIRST ROW ONLY  (MEAN/MEDIAN/MIN/MAX/Q1/Q3)
+airquality$Wind                       TO GET VALUES OF A PERTICULAR COLUMN
+
+###########Summary of the data#########
+summary(airquality$Temp)              WILL GIVE DISCRIPTIVE STATISTICS OF A PARTICULAR COLUMN
+summary(airquality)                   WILL GIVE DISCRIPTIVE STATISTICS OF ALL COLUMN   
+summary(airquality$Wind)              WILL GIVE DISCRIPTIVE STATISTICS OF A PARTICULAR COLUMN
+  
+
+###########VISUALIZATION IN "R"########
+
+It can be views under PLOT TAB on right hand side
+
+plot(airquality$Wind)                 WILL GET SACTTERED DIAGRAM ( X AXIS - INDEX AND Y AXIS airquality$Wind)
+plot(airquality$Temp,airquality$Wind, type = "p")   WILL GET COMPARISON BTN ( Temp and Wind column)
+                                      (ON X AXIS airquality$Temp, ON Y AXIS airquality$Wind)
+                                      (type="P" are points for repersentation)
+plot(airquality)                      WILL GET PAIR PLOT 
+                                      DIGONALLY WILL GET NAMES OF COLUMN AND COMPARISSION ON X AND Y AXIS
+plot(airquality$Wind, type= "l")      WILL GET SACTTERED DIAGRAM OF LINE PLOT
+plot(airquality$Wind, type= "b")      WILL GET SACTTERED DIAGRAM OF BOTH POINTS AND LINES
+
+plot(airquality$Ozone, xlab = 'No of Instances', 
+     ylab = 'ozone Concentration', main = 'Ozone levels in NY city',
+     col = 'blue')                    WILL PLOT Ozone column 
+                                      xlab 'No of Instances' and ylab 'ozone Concentration' and main 'Ozone levels in NY city'
+                                      col 'blue' 
+# HORIZONTAL BAR PLOT
+barplot(airquality$Ozone, main = 'Ozone Concenteration in air',
+        xlab = 'ozone levels', col= 'red',horiz = T,axes=T)
+
+#HISTOGRAM
+hist(airquality$Temp)
+hist(airquality$Temp, 
+     main = 'Solar Radiation values in air',
+     xlab = 'Solar rad.', col='blue')
+
+#SINGLE BOX PLOT
+boxplot(airquality$Temp,main="Boxplot")
+
+# MULTIPLE BOX PLOT
+boxplot(airquality[,1:4],main='Multiple')
+
+##HOME WORK## FOR DATA SET quakes AVAILABLE IN R ENVIRONMENT
+e_quakes<-datasets::quakes
+
+
+
